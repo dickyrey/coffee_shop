@@ -36,11 +36,6 @@ class MyApp extends StatelessWidget {
             fontSize: 16.0,
             fontWeight: FontWeight.w500,
           ),
-          headline4: GoogleFonts.poppins(
-            color: const Color(0xFF202020),
-            fontSize: 14.0,
-            fontWeight: FontWeight.w500,
-          ),
           headline5: GoogleFonts.poppins(
             color: const Color(0xFF202020),
             fontSize: 12.0,
@@ -49,11 +44,6 @@ class MyApp extends StatelessWidget {
           bodyText1: GoogleFonts.poppins(
             color: const Color(0xFF202020),
             fontSize: 16.0,
-            fontWeight: FontWeight.normal,
-          ),
-          bodyText2: GoogleFonts.poppins(
-            color: const Color(0xFF202020),
-            fontSize: 14.0,
             fontWeight: FontWeight.normal,
           ),
           subtitle1: GoogleFonts.poppins(

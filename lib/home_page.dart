@@ -1,5 +1,7 @@
 import 'package:coffee_shop/category.dart';
+import 'package:coffee_shop/coffee.dart';
 import 'package:coffee_shop/coffee_detail.dart';
+import 'package:coffee_shop/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -9,8 +11,6 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -28,9 +28,9 @@ class HomePage extends StatelessWidget {
                   ),
                   Row(
                     children: [
-                      Icon(
+                      const Icon(
                         IconlyBold.location,
-                        color: theme.primaryColor,
+                        color: kPrimaryColor,
                       ),
                       const SizedBox(width: 5),
                       RichText(
@@ -38,11 +38,11 @@ class HomePage extends StatelessWidget {
                           children: [
                             TextSpan(
                               text: 'New York, ',
-                              style: theme.textTheme.headline4,
+                              style: kHeadline4Style,
                             ),
                             TextSpan(
                               text: 'USA',
-                              style: theme.textTheme.bodyText2,
+                              style: kBodyText2Style,
                             ),
                           ],
                         ),
@@ -65,10 +65,10 @@ class HomePage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 18.0),
+                      padding: const EdgeInsets.symmetric(horizontal: kMargin),
                       child: Text(
                         'Good morning, Alex',
-                        style: theme.textTheme.headline2,
+                        style: kHeadline2Style,
                       ),
                     ),
                     const SizedBox(height: 12),
@@ -77,7 +77,7 @@ class HomePage extends StatelessWidget {
                       height: 50,
                       margin: const EdgeInsets.symmetric(horizontal: 18),
                       decoration: BoxDecoration(
-                        color: theme.dividerColor,
+                        color: kDividerColor,
                         borderRadius: BorderRadius.circular(25),
                       ),
                       child: Row(
@@ -90,7 +90,7 @@ class HomePage extends StatelessWidget {
                           const SizedBox(width: 8),
                           Expanded(
                             child: TextField(
-                              style: theme.textTheme.bodyText2,
+                              style: kBodyText2Style,
                               decoration: const InputDecoration(
                                 hintText: 'Search Coffee...',
                                 enabledBorder: InputBorder.none,
@@ -101,7 +101,7 @@ class HomePage extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: CircleAvatar(
-                              backgroundColor: theme.cardColor,
+                              backgroundColor: kCardColor,
                               child: IconButton(
                                 onPressed: () {},
                                 icon: const Icon(IconlyLight.filter),
@@ -115,10 +115,10 @@ class HomePage extends StatelessWidget {
                     ),
                     const SizedBox(height: 25),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 18.0),
+                      padding: const EdgeInsets.symmetric(horizontal: kMargin),
                       child: Text(
                         'Categories',
-                        style: theme.textTheme.headline3,
+                        style: kHeadline3Style,
                       ),
                     ),
                     const SizedBox(height: 12),
@@ -151,7 +151,7 @@ class HomePage extends StatelessWidget {
                                 const SizedBox(width: 12),
                                 Text(
                                   category.name,
-                                  style: theme.textTheme.bodyText2,
+                                  style: kBodyText2Style,
                                 ),
                               ],
                             ),
@@ -161,10 +161,10 @@ class HomePage extends StatelessWidget {
                     ),
                     const SizedBox(height: 25),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 18.0),
+                      padding: const EdgeInsets.symmetric(horizontal: kMargin),
                       child: Text(
                         'Popular this week',
-                        style: theme.textTheme.headline3,
+                        style: kHeadline3Style,
                       ),
                     ),
                     const SizedBox(height: 12),
@@ -172,15 +172,18 @@ class HomePage extends StatelessWidget {
                       width: double.infinity,
                       height: 250,
                       child: ListView.builder(
-                        itemCount: 5,
+                        itemCount: coffeeList.length,
                         scrollDirection: Axis.horizontal,
                         padding: const EdgeInsets.symmetric(horizontal: 18),
                         itemBuilder: (context, index) {
+                          final coffee = coffeeList[index];
                           return InkWell(
                             onTap: () => Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const CoffeeDetailPage(),
+                                builder: (context) => CoffeeDetailPage(
+                                  coffee: coffee,
+                                ),
                               ),
                             ),
                             child: Container(
@@ -200,23 +203,18 @@ class HomePage extends StatelessWidget {
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(12),
                                       color: Colors.white,
-                                      image: const DecorationImage(
+                                      image: DecorationImage(
                                         fit: BoxFit.cover,
                                         image: NetworkImage(
-                                          'https://i.pinimg.com/564x/73/66/99/73669966e2e099dfd95786ae2eba089c.jpg',
+                                          coffee.image,
                                         ),
                                       ),
                                     ),
                                   ),
                                   const SizedBox(height: 12),
                                   Text(
-                                    'Cuppa Coffee',
-                                    style: theme.textTheme.headline4,
-                                  ),
-                                  const SizedBox(height: 8),
-                                  Text(
-                                    'with Chocolate',
-                                    style: theme.textTheme.subtitle2,
+                                    coffee.name,
+                                    style: kHeadline4Style,
                                   ),
                                   const SizedBox(height: 8),
                                   Row(
@@ -227,16 +225,16 @@ class HomePage extends StatelessWidget {
                                         text: TextSpan(children: [
                                           TextSpan(
                                               text: '\$',
-                                              style: theme.textTheme.subtitle1),
+                                              style: ksubtitle1Style),
                                           TextSpan(
-                                              text: ' 5.12',
-                                              style: theme.textTheme.bodyText2),
+                                              text: ' ${coffee.price}',
+                                              style: kBodyText2Style),
                                         ]),
                                       ),
-                                      CircleAvatar(
+                                      const CircleAvatar(
                                         radius: 15,
-                                        backgroundColor: theme.primaryColor,
-                                        child: const Icon(
+                                        backgroundColor: kPrimaryColor,
+                                        child: Icon(
                                           Icons.add,
                                           color: Colors.white,
                                         ),
@@ -252,10 +250,10 @@ class HomePage extends StatelessWidget {
                     ),
                     const SizedBox(height: 25),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 18.0),
+                      padding: const EdgeInsets.symmetric(horizontal: kMargin),
                       child: Text(
                         'Special Offer🔥',
-                        style: theme.textTheme.headline3,
+                        style: kHeadline3Style,
                       ),
                     ),
                     const SizedBox(height: 12),
@@ -265,12 +263,7 @@ class HomePage extends StatelessWidget {
                       physics: const ScrollPhysics(),
                       itemBuilder: (context, index) {
                         return InkWell(
-                          onTap: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const CoffeeDetailPage(),
-                            ),
-                          ),
+                          onTap: () {},
                           child: Container(
                             margin: const EdgeInsets.fromLTRB(18, 0, 18, 15),
                             padding: const EdgeInsets.all(12),
@@ -300,14 +293,13 @@ class HomePage extends StatelessWidget {
                                           vertical: 2,
                                         ),
                                         decoration: BoxDecoration(
-                                          color: theme.cardColor,
+                                          color: kCardColor,
                                           borderRadius:
                                               BorderRadius.circular(12),
                                         ),
                                         child: Text(
                                           'Discount Sales',
-                                          style: theme.textTheme.subtitle2
-                                              ?.copyWith(
+                                          style: ksubtitle2Style.copyWith(
                                             color: Colors.white,
                                           ),
                                         ),
@@ -315,7 +307,7 @@ class HomePage extends StatelessWidget {
                                       const SizedBox(height: 8),
                                       Text(
                                         'Get three ice flavoured cappuccinos for only \$5.12',
-                                        style: theme.textTheme.headline4,
+                                        style: kHeadline4Style,
                                       ),
                                     ],
                                   ),

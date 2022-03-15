@@ -1,8 +1,11 @@
+import 'package:coffee_shop/coffee.dart';
+import 'package:coffee_shop/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:readmore/readmore.dart';
 
 class CoffeeDetailPage extends StatefulWidget {
-  const CoffeeDetailPage({Key? key}) : super(key: key);
+  final Coffee coffee;
+  const CoffeeDetailPage({Key? key, required this.coffee}) : super(key: key);
 
   @override
   State<CoffeeDetailPage> createState() => _CoffeeDetailPageState();
@@ -19,17 +22,15 @@ class _CoffeeDetailPageState extends State<CoffeeDetailPage> {
   @override
   Widget build(BuildContext context) {
     final screen = MediaQuery.of(context).size;
-    final theme = Theme.of(context);
     return Scaffold(
       body: Stack(
         children: [
           Container(
             width: screen.width,
             height: screen.height / 2,
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               image: DecorationImage(
-                image: NetworkImage(
-                    'https://i.pinimg.com/564x/73/66/99/73669966e2e099dfd95786ae2eba089c.jpg'),
+                image: NetworkImage(widget.coffee.image),
                 fit: BoxFit.cover,
               ),
             ),
@@ -78,19 +79,9 @@ class _CoffeeDetailPageState extends State<CoffeeDetailPage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Cappuccino',
-                                  style: theme.textTheme.headline1,
-                                ),
-                                const SizedBox(height: 5),
-                                Text(
-                                  'with Chocolate',
-                                  style: theme.textTheme.subtitle1,
-                                ),
-                              ],
+                            child: Text(
+                              widget.coffee.name,
+                              style: kHeadline1Style,
                             ),
                           ),
                           Container(
@@ -100,7 +91,7 @@ class _CoffeeDetailPageState extends State<CoffeeDetailPage> {
                             ),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(15),
-                              color: theme.cardColor,
+                              color: kCardColor,
                             ),
                             child: Row(
                               children: [
@@ -112,7 +103,7 @@ class _CoffeeDetailPageState extends State<CoffeeDetailPage> {
                                 const SizedBox(width: 5),
                                 Text(
                                   '4.7',
-                                  style: theme.textTheme.bodyText2?.copyWith(
+                                  style: kBodyText2Style.copyWith(
                                     color: Colors.white,
                                   ),
                                 ),
@@ -124,7 +115,7 @@ class _CoffeeDetailPageState extends State<CoffeeDetailPage> {
                       const SizedBox(height: 15),
                       Text(
                         'Coffee Size',
-                        style: theme.textTheme.headline3,
+                        style: kHeadline3Style,
                       ),
                       const SizedBox(height: 12),
                       Row(
@@ -149,14 +140,13 @@ class _CoffeeDetailPageState extends State<CoffeeDetailPage> {
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(15),
                                       color: (_selectedSize == e)
-                                          ? theme.primaryColor
+                                          ? kPrimaryColor
                                           : Colors.white,
                                     ),
                                     child: Center(
                                       child: Text(
                                         e,
-                                        style:
-                                            theme.textTheme.bodyText1?.copyWith(
+                                        style: kBodyText1Style.copyWith(
                                           color: (_selectedSize == e)
                                               ? Colors.white
                                               : null,
@@ -172,15 +162,15 @@ class _CoffeeDetailPageState extends State<CoffeeDetailPage> {
                       const SizedBox(height: 15),
                       Text(
                         'About',
-                        style: theme.textTheme.headline3,
+                        style: kHeadline3Style,
                       ),
                       const SizedBox(height: 12),
                       ReadMoreText(
-                        'Kapucino is a typical Italian drink made from espresso and milk, but other references also mention that capuccino originated from the coffee beans of the Turkish army left behind after the war led by Kara Mustapha Pasha in Vienna, Austria against the combined Polish-German army.',
+                        widget.coffee.description,
                         trimLines: 3,
-                        colorClickableText: theme.primaryColor,
+                        colorClickableText: kPrimaryColor,
                         trimMode: TrimMode.Line,
-                        style: theme.textTheme.subtitle1,
+                        style: ksubtitle1Style,
                         trimCollapsedText: '...Expand',
                         trimExpandedText: ' Collapse ',
                       ),
@@ -193,11 +183,11 @@ class _CoffeeDetailPageState extends State<CoffeeDetailPage> {
                           child: ElevatedButton(
                             onPressed: () {},
                             child: Text(
-                              'Add to cart -- \$4.99',
-                              style: theme.textTheme.button,
+                              'Add to cart - \$${widget.coffee.price}',
+                              style: kButtonStyle,
                             ),
                             style: ElevatedButton.styleFrom(
-                              primary: theme.primaryColor,
+                              primary: kPrimaryColor,
                             ),
                           ),
                         ),
